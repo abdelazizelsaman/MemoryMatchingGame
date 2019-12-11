@@ -1,9 +1,11 @@
 package com.example.assignment3;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     int[] tiles = new int[2];
 
     int[] tilesLocation = new int[2];
+
+    int points = 0;
 
     public int id = 0;
 
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             visable = 0;
             tilesLocation[1] = Integer.parseInt(image.replaceAll("image", ""));
             tiles[1] = tileIndex(image);
-            if (tiles[0] == tiles[1]){
+            if (tiles[0] == tiles[1] && tilesLocation[0] != tilesLocation[1]){
                 return 2; // unhide 2 tiles, then remove both
             }
             else{
@@ -105,21 +109,37 @@ public class MainActivity extends AppCompatActivity {
          ImageView image6= (ImageView) findViewById(R.id.image6);
          ImageView image7= (ImageView) findViewById(R.id.image7);
 
+         final TextView score = findViewById(R.id.score);
+         score.setText("Score: 0");
+
+
 
 
         final ImageView[] images = new ImageView[] { image0, image1, image2, image3, image4, image5, image6, image7 };
 
 
-        Button button = (Button) findViewById(R.id.reset);
+        final Button reset = (Button) findViewById(R.id.reset);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        reset.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                String dir = "/Users/ahmedabdelaziz/AndroidStudioProjects/Assignment3/app/src/main/res/raw";
+
+                try {
+                    MediaPlayer mp = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(dir,"raw",getPackageName()));
+                    mp.start();
+                } catch (Exception e) {}
+
 
                 imageOrder = reset();
                 for(int i=0 ; i<images.length ; i++){
                     images[i].setImageResource(R.mipmap.ic_launcher_new);
                     images[i].setVisibility(View.VISIBLE);
+
                 }
+                points = 0;
+                score.setText("Score: "+Integer.toString(points));
+                reset.setText("Reset");
 
 //
 
@@ -138,9 +158,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         images[tilesLocation[1]].setImageResource(myImageList[imageOrder[tilesLocation[1]]]);
+                        v.setVisibility(View.VISIBLE);
+                        points+=10;
                         try
                         {
-                            Thread.sleep(1500);
+                            Thread.sleep(250);
                         }
                         catch(InterruptedException ex)
                         {
@@ -148,11 +170,18 @@ public class MainActivity extends AppCompatActivity {
                         }
                         v.setVisibility(View.INVISIBLE);
                         images[tilesLocation[0]].setVisibility(View.INVISIBLE);
+                        score.setText("Score: "+Integer.toString(points));
+
+                        if (points == 40){
+                            reset.setText("Restart");
+                        }
+
                         break;
                     case 3:
                         for(int i=0 ; i<images.length ; i++){
                             images[i].setImageResource(R.mipmap.ic_launcher_new);
                         }
+
 
                         break;
                 }
