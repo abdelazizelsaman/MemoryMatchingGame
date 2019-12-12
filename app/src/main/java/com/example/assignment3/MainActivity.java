@@ -178,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                // Do something after 5s = 5000ms
 
                                 v.setVisibility(View.INVISIBLE);
                                 images[tilesLocation[0]].setVisibility(View.INVISIBLE);
@@ -186,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }, 500);
 
-                        //v.setVisibility(View.INVISIBLE);
                         score.setText("Score: "+Integer.toString(points));
 
                         if (points == 40){
@@ -195,9 +193,19 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case 3:
-                        for(int i=0 ; i<images.length ; i++){
-                            images[i].setImageResource(R.mipmap.ic_launcher_new);
-                        }
+                        images[tilesLocation[1]].setImageResource(myImageList[imageOrder[tilesLocation[1]]]);
+                        final Handler handle = new Handler();
+                        handle.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                for(int i=0 ; i<images.length ; i++){
+                                    images[i].setImageResource(R.mipmap.ic_launcher_new);
+                                }
+                            }
+                        }, 350);
+
+
 
 
                         break;
