@@ -2,6 +2,7 @@ package com.example.assignment3;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -118,6 +119,18 @@ public class MainActivity extends AppCompatActivity {
         final ImageView[] images = new ImageView[] { image0, image1, image2, image3, image4, image5, image6, image7 };
 
 
+        Button btn1 = (Button) findViewById(R.id.exit);
+        btn1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                finish();
+                System.exit(0);
+            }
+        });
+
+
         final Button reset = (Button) findViewById(R.id.reset);
 
         reset.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         View.OnClickListener i = new View.OnClickListener(){
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 int index = tileClick(getResources().getResourceEntryName(v.getId()));
 
                 switch(index){
@@ -160,16 +173,31 @@ public class MainActivity extends AppCompatActivity {
                         images[tilesLocation[1]].setImageResource(myImageList[imageOrder[tilesLocation[1]]]);
                         v.setVisibility(View.VISIBLE);
                         points+=10;
-                        try
-                        {
-                            Thread.sleep(250);
-                        }
-                        catch(InterruptedException ex)
-                        {
-                            Thread.currentThread().interrupt();
-                        }
-                        v.setVisibility(View.INVISIBLE);
-                        images[tilesLocation[0]].setVisibility(View.INVISIBLE);
+
+
+//                        try
+//                        {
+//                            Thread.sleep(250);
+//                        }
+//                        catch(InterruptedException ex)
+//                        {
+//                            Thread.currentThread().interrupt();
+//                        }
+//
+
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Do something after 5s = 5000ms
+
+                                v.setVisibility(View.INVISIBLE);
+                                images[tilesLocation[0]].setVisibility(View.INVISIBLE);
+
+                            }
+                        }, 500);
+
+                        //v.setVisibility(View.INVISIBLE);
                         score.setText("Score: "+Integer.toString(points));
 
                         if (points == 40){
