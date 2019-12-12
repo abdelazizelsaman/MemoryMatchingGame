@@ -174,17 +174,6 @@ public class MainActivity extends AppCompatActivity {
                         v.setVisibility(View.VISIBLE);
                         points+=10;
 
-
-//                        try
-//                        {
-//                            Thread.sleep(250);
-//                        }
-//                        catch(InterruptedException ex)
-//                        {
-//                            Thread.currentThread().interrupt();
-//                        }
-//
-
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
